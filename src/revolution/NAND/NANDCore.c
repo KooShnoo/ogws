@@ -287,7 +287,7 @@ s32 NANDInit(void) {
         _ES_CloseLib(&fd);
 
         if (result != IPC_RESULT_OK) {
-            OSReport("Failed to set home directory.\n");
+            // OSReport("Failed to set home directory.\n");
         }
 
         OSRegisterShutdownFunction(&s_shutdownFuncInfo);

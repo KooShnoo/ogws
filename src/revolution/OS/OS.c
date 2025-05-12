@@ -580,7 +580,7 @@ void OSInit(void) {
             __OSInitMemoryProtection();
         }
 
-        ReportOSInfo();
+        // ReportOSInfo();
         OSRegisterVersion(__OSVersion);
 
         // Check for debugger just like earlier
@@ -871,7 +871,7 @@ u32 __OSGetDIConfig(void) {
 }
 
 void OSRegisterVersion(const char* ver) {
-    OSReport("%s\n", ver);
+    // OSReport("%s\n", ver);
 }
 
 // Must be defined down here because of data pooling
