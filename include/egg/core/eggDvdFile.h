@@ -2,7 +2,7 @@
 #define EGG_CORE_DVDFILE_H
 #include "types_egg.h"
 #include "eggFile.h"
-#include "ut_list.h"
+#include <nw4r/ut/ut_list.h>
 #include <revolution/DVD.h>
 #include <revolution/OS.h>
 

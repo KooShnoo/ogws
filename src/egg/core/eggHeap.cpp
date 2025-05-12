@@ -1,9 +1,9 @@
 #pragma ipa file
 
-#include "eggHeap.h"
-#include "eggAssert.h"
+#include "egg/core/eggHeap.h"
+#include "egg/prim/eggAssert.h"
 
-#include "ut_list.h"
+#include <nw4r/ut/ut_list.h>
 
 #define MB_AS_B (1024.0f * 1024.0f)
 

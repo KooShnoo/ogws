@@ -2,8 +2,8 @@
 #include "eggThread.h"
 #include "eggHeap.h"
 #include "eggAssert.h"
-#include "ut_list.h"
-#include "ut_algorithm.h"
+#include <nw4r/ut/ut_list.h>
+#include <nw4r/ut/ut_algorithm.h>
 
 namespace EGG
 {

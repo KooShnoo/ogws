@@ -4,7 +4,7 @@
 #include "eggMatrix.h"
 #include "eggStateGX.h"
 #include "eggScreen.h"
-#include "ut_algorithm.h"
+#include <nw4r/ut/ut_algorithm.h>
 #include "g3d_restex.h"
 
 namespace EGG

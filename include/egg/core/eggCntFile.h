@@ -2,7 +2,7 @@
 #define EGG_CORE_CNTFILE_H
 #include "types_egg.h"
 #include "eggAssert.h"
-#include "ut_list.h"
+#include <nw4r/ut/ut_list.h>
 #include "eggFile.h"
 #include <revolution/CNT.h>
 #include <revolution/ARC.h>

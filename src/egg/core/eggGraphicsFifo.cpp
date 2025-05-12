@@ -1,7 +1,7 @@
 #pragma ipa file
-#include "eggGraphicsFifo.h"
-#include "eggHeap.h"
-#include "eggAssert.h"
+#include "egg/core/eggGraphicsFifo.h"
+#include "egg/core/eggHeap.h"
+#include "egg/prim/eggAssert.h"
 #include <revolution/OS.h>
 #include <revolution/GX.h>
 

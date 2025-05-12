@@ -1,5 +1,6 @@
 #ifndef EGG_CORE_XFBMANAGER_H
 #define EGG_CORE_XFBMANAGER_H
+#include "macros.h"
 #include "types_egg.h"
 #include "eggXfb.h"
 

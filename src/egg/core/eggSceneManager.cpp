@@ -1,14 +1,14 @@
 #pragma ipa file
 #pragma use_lmw_stmw on
 #include <revolution/GX.h>
-#include "eggAssert.h"
-#include "eggScene.h"
-#include "eggSceneManager.h"
-#include "eggSystem.h"
-#include "eggExpHeap.h"
-#include "eggVideo.h"
-#include "eggDisplay.h"
-#include "eggColorFader.h"
+#include "egg/prim/eggAssert.h"
+#include "egg/core/eggScene.h"
+#include "egg/core/eggSceneManager.h"
+#include "egg/core/eggSystem.h"
+#include "egg/core/eggExpHeap.h"
+#include "egg/core/eggVideo.h"
+#include "egg/core/eggDisplay.h"
+#include "egg/core/eggColorFader.h"
 
 namespace EGG
 {

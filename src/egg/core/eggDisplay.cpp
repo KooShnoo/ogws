@@ -1,9 +1,9 @@
 #pragma ipa file
-#include "eggDisplay.h"
-#include "eggVideo.h"
-#include "eggSystem.h"
-#include "eggAssert.h"
-#include "eggXfbManager.h"
+#include "egg/core/eggDisplay.h"
+#include "egg/core/eggVideo.h"
+#include "egg/core/eggSystem.h"
+#include "egg/prim/eggAssert.h"
+#include "egg/core/eggXfbManager.h"
 
 #include <revolution/GX.h>
 #include <revolution/OS.h>

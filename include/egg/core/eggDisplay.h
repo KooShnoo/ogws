@@ -3,7 +3,7 @@
 #include "types_egg.h"
 #include "eggBitFlag.h"
 
-#include "ut_Color.h"
+#include "nw4r/ut/ut_Color.h"
 
 namespace EGG
 {

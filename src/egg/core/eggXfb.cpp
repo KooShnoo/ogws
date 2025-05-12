@@ -1,12 +1,12 @@
 #pragma ipa file
 
-#include "eggXfb.h"
-#include "eggSystem.h"
-#include "eggVideo.h"
-#include "eggHeap.h"
-#include "eggAssert.h"
+#include <egg/core/eggXfb.h>
+#include <egg/core/eggSystem.h>
+#include <egg/core/eggVideo.h>
+#include <egg/core/eggHeap.h>
+#include <egg/prim/eggAssert.h>
 
-#include "ut_algorithm.h"
+#include <nw4r/ut/ut_algorithm.h>
 
 using namespace nw4r;
 

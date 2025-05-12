@@ -3,7 +3,7 @@
 #include "eggDvdFile.h"
 #include "eggHeap.h"
 #include "eggAssert.h"
-#include "ut_algorithm.h"
+#include <nw4r/ut/ut_algorithm.h>
 #include <revolution/VI.h>
 #include <revolution/OS.h>
 

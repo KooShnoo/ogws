@@ -1,7 +1,7 @@
 #ifndef EGG_CORE_THREAD_H
 #define EGG_CORE_THREAD_H
 #include "types_egg.h"
-#include "ut_list.h"
+#include <nw4r/ut/ut_list.h>
 #include <revolution/OS.h>
 
 namespace EGG

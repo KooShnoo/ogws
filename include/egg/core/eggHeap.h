@@ -5,7 +5,7 @@
 #include "eggDisposer.h"
 #include "eggBitFlag.h"
 
-#include "ut_list.h"
+#include <nw4r/ut/ut_list.h>
 
 #include <revolution/MEM.h>
 #include <revolution/OS.h>

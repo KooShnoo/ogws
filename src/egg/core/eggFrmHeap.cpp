@@ -1,6 +1,6 @@
 #pragma use_lmw_stmw on
 #include "eggFrmHeap.h"
-#include "ut_algorithm.h"
+#include <nw4r/ut/ut_algorithm.h>
 #include <revolution/MEM.h>
 #include <new>
 

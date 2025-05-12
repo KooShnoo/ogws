@@ -1,5 +1,7 @@
-#include "eggXfbManager.h"
-#include "eggXfb.h"
+#include "egg/core/eggXfbManager.h"
+#include "egg/core/eggXfb.h"
+#include "macros.h"
+#include "revolution/OS/OSError.h"
 
 #include <revolution/GX.h>
 #include <revolution/OS.h>

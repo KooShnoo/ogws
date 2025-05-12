@@ -1,7 +1,7 @@
 #ifndef EGG_CORE_GRAPHICS_FIFO_H
 #define EGG_CORE_GRAPHICS_FIFO_H
 #include "types_egg.h"
-#include "ut_algorithm.h"
+#include <nw4r/ut/ut_algorithm.h>
 
 namespace EGG
 {

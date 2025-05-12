@@ -4,7 +4,7 @@
 #include "eggVideo.h"
 #include "eggMatrix.h"
 
-#include "ut_algorithm.h"
+#include <nw4r/ut/ut_algorithm.h>
 
 #include <revolution/VI.h>
 #include <revolution/OS.h>
