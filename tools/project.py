@@ -1011,6 +1011,16 @@ def generate_build_ninja(
         link_step = LinkStep(build_config)
         for unit in build_config["units"]:
             add_unit(unit, link_step)
+
+        sample_obj = objects.get("egg/core/eggColorFader.cpp")
+        slug_bug_options = sample_obj.options
+        slug_bug = Object(True, "SlugBug", **slug_bug_options)
+        slug_bug.src_obj_path = build_path / '..' / '..' / 'SlugBug.o'
+        slug_bug.src_path = build_path / '..' / '..' / 'SlugBug.cpp'
+        c_build(slug_bug, slug_bug.src_path)
+        
+        link_step.add(build_path / '..' / '..' / 'bowling_pin.o')
+        link_step.add(slug_bug.src_obj_path)
         link_steps.append(link_step)
 
         if config.build_rels:

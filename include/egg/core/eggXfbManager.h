@@ -9,7 +9,7 @@ namespace EGG
     class XfbManager
     {
     public:
-        XfbManager(Heap *heap) {}
+        XfbManager(Heap *heap) : mListHead(nullptr), mListTail(nullptr), mCopiedXfb(nullptr), mShowXfb(nullptr) {}
         ~XfbManager() {}
 
         bool isReadytoCopy() const

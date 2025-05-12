@@ -63,6 +63,8 @@ namespace EGG
         void dispose();
         Heap * becomeCurrentHeap();
 
+        const MEMiHeapHead * heapHandle() { return mHeapHandle; };
+
     protected:
         MEMiHeapHead * mHeapHandle; // at 0x10
         void * mMemBlock; // at 0x14
