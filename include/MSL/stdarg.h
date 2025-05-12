@@ -4,6 +4,16 @@
 extern "C" {
 #endif
 
+#ifdef __clang__
+#define va_start __builtin_va_start
+#define va_end __builtin_va_end
+#define va_arg __builtin_va_arg
+#define va_list __builtin_va_list
+// #define va_start(VA_LIST, ARG) __builtin_va_start(VA_LIST, ARG)
+// #define va_end(VA_LIST) __builtin_va_end(VA_LIST)
+// #define va_arg(VA_LIST, ARG_TYPE) __builtin_va_arg(VA_LIST, ARG_TYPE)
+#else
+
 typedef enum _va_arg_type {
     arg_ARGPOINTER,
     arg_WORD,
@@ -24,6 +34,7 @@ void* __va_arg(va_list argp, int type);
 #define va_end(VA_LIST) ((void)VA_LIST)
 #define va_arg(VA_LIST, ARG_TYPE)                                              \
     (*(ARG_TYPE*)__va_arg(VA_LIST, _var_arg_typeof(ARG_TYPE)))
+#endif
 
 #ifdef __cplusplus
 }
