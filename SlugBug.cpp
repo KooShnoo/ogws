@@ -13,9 +13,9 @@
 #include "nw4r/g3d/g3d_state.h"
 #include "nw4r/g3d/res/g3d_resfile.h"
 #include "nw4r/g3d/res/g3d_resmdl.h"
+#include "nw4r/ut/ut_Color.h"
 #include "revolution/OS/OSArena.h"
 #include "revolution/OS/OSError.h"
-#include "nw4r/ut/ut_Color.h"
 #include "revolution/VI/vi.h"
 
 // #pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -52,38 +52,36 @@ public:
         heap->becomeCurrentHeap();
         m_heap = heap;
     }
-    
+
     void slugBug() {
         EGG::BaseSystem::mConfigData = this;
-        
+
         init_heap();
         EGG::Allocator allocator = EGG::Allocator(m_heap, 32);
 
         EGG::GraphicsFifo::create(gpu_fifo_size, nullptr);
-    
+
         m_video = new EGG::Video(nullptr);
-    
+
         m_xfb_mgr = new EGG::XfbManager(nullptr);
         m_xfb_mgr->attach(new EGG::Xfb(nullptr));
         m_xfb_mgr->attach(new EGG::Xfb(nullptr));
 
         m_display = new EGG::Display(1);
-    
-    
+
         nw4r::g3d::G3dInit(true);
         nw4r::g3d::G3DState::SetRenderModeObj(*m_video->mRenderMode);
-    
+
         nw4r::g3d::ResFile pin_file = nw4r::g3d::ResFile(bowling_pin_rres);
         pin_file.Init();
         ASSERT(pin_file.Bind());
         nw4r::g3d::ResMdl pin_mdl = pin_file.GetResMdl(0);
         pin_mdl.Init();
-    
+
         nw4r::g3d::ScnRoot *scene_3d = nw4r::g3d::ScnRoot::Construct(&allocator, NULL, 32, 32);
         nw4r::g3d::ScnMdlSimple *scene_pin = nw4r::g3d::ScnMdlSimple::Construct(&allocator, NULL, pin_mdl, 1);
         scene_3d->PushBack(scene_pin);
 
-        
         u8 r = 0x1f;
         u8 g = 0x1f;
         u8 b = 0x1f;
@@ -94,12 +92,12 @@ public:
         VIWaitForRetrace();
         VIWaitForRetrace();
         VIWaitForRetrace();
-        
+
         OSReport("entering main loop.\n");
         while (m_display->mFrameCount < 2 * 60) {
             m_display->beginFrame();
             m_display->beginRender();
-            
+
             // r += 1;
             // g += 1;
             // b += 1;
@@ -115,7 +113,7 @@ public:
             // draw
             scene_3d->DrawOpa();
             scene_3d->DrawXlu();
-    
+
             m_display->endRender();
             m_display->endFrame();
         }
@@ -126,7 +124,6 @@ public:
         m_display->setBlack(black);
     }
 };
-
 
 extern "C" {
 void slugBug() {
