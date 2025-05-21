@@ -60,25 +60,49 @@
 
 // For VSCode
 #else
-// #elif defined(__INTELLISENSE__)
-// #ifdef __clang__ 
-#define MEMCLR(x) __builtin_memset((x), 0, sizeof(*(x)));
+
 #define DECLTYPE(x) __decltype(x)
-// #endif
-#ifdef __clang__ 
-#define __fabs fabsf
-// #define __fabsf fabsf
-#endif
+
+
 // 'Zero Size Array' hack to avoid incomplete type like `u8 foo[];`. 
 // the real fix is to make the AT_ADDRESS macro work in clang.
+// todo: use extern like that one person on dsicord todl me to. 
 #define ARRAY_AT_ADDRESS(addr) [0]
 #define AT_ADDRESS(addr)
 // this macro was created with the following regex:
 // search `asm \{([^{}]*\n?)*\}` replace `PPC_ASM ($1)`
 #define PPC_ASM(...)
 #define asm
+// todo: pick another name for this macro so we can still use __attribute__ without codewarrior
 #define __attribute__(x)
 #define __declspec(x)
+
+// CWCC builtins
+double __fabs(double);
+
+// powerpc sync instruction
+#if !__has_builtin(__sync_synchronize)
+#warning your language server doesn't have __sync_synchronize support, big L
+#define __sync(x)
+#else
+#define __sync(x) __sync_synchronize(x)
+#endif
+
+// powerpc cntlzw instruction
+#if !__has_builtin(__builtin_clz)
+#warning your language server doesn't have __builtin_clz support, big L
+#define __cntlzw(x)
+#else
+#define __cntlzw(x) __builtin_clz(x)
+#endif
+
+#if !__has_builtin(__builtin_memset)
+#warning your language server doesn't have __builtin_memset support, big L
+#define MEMCLR(x) 
+#else
+#define MEMCLR(x) __builtin_memset((x), 0, sizeof(*(x)));
+#endif
+
 #endif
 
 #endif

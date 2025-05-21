@@ -297,7 +297,11 @@ typedef struct
 
 /* Common Bluetooth field definitions */
 #define BD_ADDR_LEN     6                   /* Device address length */
+#ifdef __clang__
+typedef UINT8 *BD_ADDR;         /* Device address */
+#else
 typedef UINT8 BD_ADDR[BD_ADDR_LEN];         /* Device address */
+#endif
 typedef UINT8 *BD_ADDR_PTR;                 /* Pointer to Device Address */
 
 #define AMP_KEY_TYPE_GAMP       0

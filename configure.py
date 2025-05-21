@@ -199,7 +199,16 @@ cflags_base = [
     "-ir include/MSL",
     f"-i build/{config.version}/include",
     f"-DBUILD_VERSION={version_num}",
-    "-ir include/revolution/BTE",  # thanks broadcom...
+    # thanks broadcom...
+    # "-ir include/revolution/BTE",  
+        "-i include/revolution/BTE",
+        "-i include/revolution/BTE/include",
+        "-i include/revolution/BTE/stack/include",
+        "-i include/revolution/BTE/stack/btm",
+        "-i include/revolution/BTE/gki/common",
+        "-i include/revolution/BTE/gki/platform",
+        "-i include/revolution/BTE/bta/include",
+        "-i include/revolution/BTE/bta/sys",
     "-DREVOLUTION",  # BTE changes
 ]
 

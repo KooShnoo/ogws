@@ -10,7 +10,7 @@
 #define CONCAT(x, y) __CONCAT(x, y)
 
 // Compile without matching hacks.
-#ifdef __DECOMP_NON_MATCHING
+#if defined(__DECOMP_NON_MATCHING) || !defined(__CWCC__)
 #define DECOMP_FORCEACTIVE(module, ...)
 #define DECOMP_FORCELITERAL(module, x)
 #define DECOMP_FORCEACTIVE_DTOR(module, cls)

@@ -646,6 +646,7 @@ static void WPADiRumbleMotor(s32 chan, BOOL prevSuccess) {
     _rumbleCnt[chan] = _wpdcb[chan]->motorBusy ? _rumbleCnt[chan] + 1 : 0;
 }
 
+void BTA_HhGetAclQueueInfo();
 static void WPADiManageHandler(OSAlarm* pAlarm, OSContext* pContext) {
     WPADLibStatus status = WPADGetStatus();
     s32 chan;
@@ -2586,6 +2587,7 @@ BOOL WPADiPopCommand(WPADCommandQueue* pQueue) {
     return TRUE;
 }
 
+void __VIResetRFIdle();
 static void __SetScreenSaverFlag(BOOL disable) {
     if (disable) {
         __VIResetRFIdle();

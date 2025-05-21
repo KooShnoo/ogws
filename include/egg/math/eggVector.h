@@ -2,7 +2,7 @@
 #define EGG_MATH_VECTOR_H
 #include "types_egg.h"
 #include "eggMath.h"
-#include "math_types.h"
+#include "nw4r/math/math_types.h"
 
 namespace EGG
 {

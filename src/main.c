@@ -4,6 +4,6 @@ extern void slugBug();
 
 int main() {
     slugBug();
-    OSShutdownSystem();
+    OSReturnToMenu();
     return 0;
 }
