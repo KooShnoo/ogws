@@ -7,10 +7,10 @@
 #include "egg/core/eggVideo.h"
 #include "egg/core/eggXfb.h"
 #include "egg/core/eggXfbManager.h"
-#include "egg/math/eggMatrix.h"
 #include "egg/math/eggVector.h"
 #include "g3d/g3d_camera.h"
 #include "g3d/g3d_scnobj.h"
+#include "macros.h"
 #include "nw4r/g3d/g3d_init.h"
 #include "nw4r/g3d/g3d_scnmdlsmpl.h"
 #include "nw4r/g3d/g3d_scnroot.h"
@@ -18,26 +18,17 @@
 #include "nw4r/g3d/res/g3d_resfile.h"
 #include "nw4r/g3d/res/g3d_resmdl.h"
 #include "nw4r/ut/ut_Color.h"
+#include "revolution/KPAD/KPAD.h"
 #include "revolution/OS/OSArena.h"
 #include "revolution/OS/OSError.h"
 #include "revolution/OS/OSReset.h"
-#include "revolution/OS/OSThread.h"
-#include "revolution/VI/vi.h"
 #include "revolution/WPAD/WPAD.h"
 
 // wip
-const u32 WPAD_RINGBUFFER_LEN = 128;
-static WPADFSStatus s_ringbuffer[WPAD_RINGBUFFER_LEN];
-static EGG::Allocator *s_WPADAllocator;
-static s32 s_controller_type = WPAD_DEV_NONE;
+static EGG::Allocator *s_WPADAllocator = nullptr;
 bool s_did_request_shutdown = false;
 bool s_did_request_reset = false;
-static union {
-    struct {
-        WPADStatus wiimote;
-    };
-    WPADFSStatus wiichuck;
-} s_controller_status;
+static KPADStatus s_controller_status = {};
 
 class InputManager {
 public:
@@ -47,77 +38,22 @@ public:
         return 1;
     }
 
-    static bool isConnected() { return s_controller_type < WPAD_DEV_NONE; }
-
-    static void onExtension(s32 player_num, s32 dev) {
-        if (WPADGetStatus() != WPAD_LIB_STATUS_3) { return; }
-
-        OSReport("onExtension()! player %ld, ext=%ld", player_num + 1, dev);
-    }
-
-    static void onConnect(s32 chan, s32 result) {
-        if (WPADGetStatus() != WPAD_LIB_STATUS_3) { return; }
-
-        if (chan != WPAD_CHAN0) {
-            OSReport("hmm only one controller supported, sry :(\n");
-            return;
-        }
-
-        if (result == WPAD_ERR_OK) {
-            OSReport("A controller has been connected, but it is probably still initializng the connection.\n");
-        } else if (result == WPAD_ERR_NO_CONTROLLER) {
-            OSReport("disconnected controlelr.\n");
-            s_controller_type = WPAD_DEV_NONE;
-        } else {
-            OSReport("onConnect(): wpaderr[%ld].\n", result);
-            s_controller_type = WPAD_DEV_NONE;
-        }
-    }
+    static bool isConnected() { return s_controller_status.dev_type < WPAD_DEV_NONE; }
 
     static void init(EGG::Allocator *pWPADAllocator) {
 
         s_WPADAllocator = pWPADAllocator;
 
         WPADRegisterAllocator(&WPADAllocator, &WPADFree);
-        WPADInit();
-        WPADSetConnectCallback(WPAD_CHAN0, &onConnect);
-        WPADSetExtensionCallback(0, &onExtension);
+        KPADInit();
 
         // i cheated to write this code.
         while (WPADGetStatus() != WPAD_LIB_STATUS_3) {}
     }
 
-    static void calc() {
-        s32 old_controller_type = s_controller_type;
+    static void calc() { KPADRead(0, &s_controller_status, 1); }
 
-        s32 wpadErr = WPADProbe(WPAD_CHAN0, &s_controller_type);
-        if (wpadErr != WPAD_ERR_OK) {
-            s_controller_type = WPAD_DEV_NONE;
-            return;
-        }
-
-        s32 new_controller_type = s_controller_type;
-        bool controllerChanged = new_controller_type != old_controller_type;
-        if (controllerChanged) {
-            if (new_controller_type == WPAD_DEV_INITIALIZING) {
-                OSReport("initializing connection...\n");
-            } else if (new_controller_type == WPAD_DEV_CORE) {
-                OSReport("connected to wiimote.\n");
-                WPADSetDataFormat(WPAD_CHAN0, WPAD_FMT_CORE_BTN_ACC_DPD);
-                WPADSetAutoSamplingBuf(WPAD_CHAN0, &s_ringbuffer, WPAD_RINGBUFFER_LEN);
-            } else if (new_controller_type == WPAD_DEV_FS) {
-                OSReport("connected to wiichuck.\n");
-                WPADSetDataFormat(WPAD_CHAN0, WPAD_FMT_FS_BTN_ACC_DPD);
-                WPADSetAutoSamplingBuf(WPAD_CHAN0, &s_ringbuffer, WPAD_RINGBUFFER_LEN);
-            } else {
-                OSReport("connected to unknown controller %ld.\n", new_controller_type);
-            }
-        }
-
-        if (isConnected()) { WPADRead(WPAD_CHAN0, &s_controller_status.wiimote); }
-    }
-
-    static inline bool pressedButton(s32 button) { return s_controller_status.wiimote.button & button; }
+    static inline bool pressedButton(s32 button) { return s_controller_status.hold & button; }
 };
 
 void *OSAllocFromMEM2ArenaLo(size_t size, u32 align) {
@@ -210,6 +146,7 @@ public:
         m_xfb_mgr->attach(new EGG::Xfb(nullptr));
 
         m_display = new EGG::Display(1);
+        m_display->setBlack(true);
 
         nw4r::g3d::G3dInit(true);
         nw4r::g3d::G3DState::SetRenderModeObj(*m_video->mRenderMode);
@@ -231,16 +168,7 @@ public:
         scene_pin->GetMtx(nw4r::g3d::ScnObj::MTX_LOCAL, &model_matrix);
         EGG::Vector3f pos = EGG::Vector3f(model_matrix._03, model_matrix._13, model_matrix._23);
 
-        u8 r = 0x1f;
-        u8 g = 0x1f;
-        u8 b = 0x1f;
-        m_display->setClearColor(nw4r::ut::Color(r, g, b, 0xff));
-        setBlack(false);
-
-        // i guess some 'display modes' want this, or something
-        VIWaitForRetrace();
-        VIWaitForRetrace();
-        VIWaitForRetrace();
+        m_display->setClearColor(nw4r::ut::Color(0x1e1e1eff));
 
         OSReport("entering main loop.\n");
         while (true) {
@@ -282,11 +210,6 @@ public:
             m_display->endRender();
             m_display->endFrame();
         }
-    }
-
-    void setBlack(bool black) {
-        VISetBlack(black);
-        m_display->setBlack(black);
     }
 };
 
