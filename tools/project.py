@@ -1020,6 +1020,10 @@ def generate_build_ninja(
         c_build(slug_bug, slug_bug.src_path)
         
         link_step.add(build_path / '..' / '..' / 'bowling_pin.o')
+        link_step.add(build_path / '..' / '..' / 'homeBtn_ENG.o')
+        link_step.add(build_path / '..' / '..' / 'SpeakerSe.o')
+        link_step.add(build_path / '..' / '..' / 'home_nosave.o')
+        link_step.add(build_path / '..' / '..' / 'HomeButtonSe.o')
         link_step.add(slug_bug.src_obj_path)
         link_steps.append(link_step)
 

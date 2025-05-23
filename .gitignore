@@ -37,3 +37,5 @@ tools/codewarrior/
 *.exe
 *.dll
 *.brres
+*.brsar
+*.arc
